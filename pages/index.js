@@ -1,61 +1,60 @@
 import Head from 'next/head'
+import Link from 'next/link'
+import { SimpleGrid, Image, Flex, Spacer, Text } from '@chakra-ui/react'
+import { getChampionData } from '../lib/champions'
+import { ChampionCard } from '../components'
 
-export default function Home() {
+export async function getStaticProps() {
+  const allChampData = await getChampionData()
+  const version = process.env.REACT_LOL_VERSION
+  return {
+    props: {
+      allChampData,
+      version
+    }
+  }
+}
+
+export default function Home({ allChampData, version }) {
+
   return (
     <div className="container">
       <Head>
-        <title>Create Next App</title>
+        <title>Lol Ultimate Team</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+      <header>
+        <Flex>
+        <Image height={'120px'} src={'/images/league2.png'} alt={"League of Legends Logo"}></Image>
+        <Spacer></Spacer>
+        <Text mt={5} fontSize={48} fontFamily={'FrizQuadrata'}>
+          Ultimate Team
+        </Text>
+        <Spacer></Spacer>
+        <Text mt={5}>
+          {version}
+        </Text>
+        </Flex>
+      </header>
+
       <main>
-        <h1 className="title">
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
+          <SimpleGrid columns={5} spacing={10} margin={5}>
+            {
+              allChampData.map(champ => <ChampionCard key={champ.name} champion={champ} ></ChampionCard>)
+            }
+          </SimpleGrid>
 
-        <p className="description">
-          Get started by editing <code>pages/index.js</code>
-        </p>
-
-        <div className="grid">
-          <a href="https://nextjs.org/docs" className="card">
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className="card">
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="card"
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        
       </main>
 
       <footer>
         <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          href="https://developer.riotgames.com/docs/lol#data-dragon"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className="logo" />
+          Powered by LoL Data Dragon
         </a>
       </footer>
 
@@ -76,15 +75,27 @@ export default function Home() {
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          background-image: url('/images/rift.png');
+          width: 100%;
+          overflow: hidden;
+          scrollbar-width: none;  
         }
 
         footer {
           width: 100%;
           height: 100px;
           border-top: 1px solid #eaeaea;
+          background-color: #061c25;
           display: flex;
           justify-content: center;
           align-items: center;
+        }
+
+        header {
+          width: 100%;
+          padding: 30px;
+          background-color: #061c25;
+          color: #eaeaea;
         }
 
         footer img {
@@ -95,6 +106,7 @@ export default function Home() {
           display: flex;
           justify-content: center;
           align-items: center;
+          color: #eaeaea;
         }
 
         a {
@@ -202,6 +214,11 @@ export default function Home() {
 
         * {
           box-sizing: border-box;
+        }
+
+        @font-face {
+          font-family: 'FrizQuadrata';
+          src: url('/fonts/Friz-Quadrata-Font/Friz Quadrata Regular.ttf');
         }
       `}</style>
     </div>
