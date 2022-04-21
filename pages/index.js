@@ -1,21 +1,33 @@
+import React from 'react'
 import Head from 'next/head'
-import Link from 'next/link'
-import { SimpleGrid, Image, Flex, Spacer, Text } from '@chakra-ui/react'
+import { SimpleGrid, Image, Flex, Spacer, Text, Button, Container } from '@chakra-ui/react'
 import { getChampionData } from '../lib/champions'
 import { ChampionCard } from '../components'
+import { roles } from '../lib/roles'
+import {
+  Select,
+} from "chakra-react-select";
+import useMediaQuery from "../hooks/useMediaQuery";
 
 export async function getStaticProps() {
   const allChampData = await getChampionData()
   const version = process.env.REACT_LOL_VERSION
+  const roleNames = Object.keys(roles)
   return {
     props: {
       allChampData,
-      version
+      version,
+      roleNames
     }
   }
 }
 
-export default function Home({ allChampData, version }) {
+export default function Home({ allChampData, version, roleNames }) {
+
+  const isDesktop = useMediaQuery('(min-width: 960px)');
+
+  const [filter, setFilter] = React.useState(null)
+  const [search, setSearch] = React.useState(null)
 
   return (
     <div className="container">
@@ -26,9 +38,9 @@ export default function Home({ allChampData, version }) {
 
       <header>
         <Flex>
-        <Image height={'120px'} src={'/images/league2.png'} alt={"League of Legends Logo"}></Image>
+        <Image mt={isDesktop ? 0 : 5} mr={isDesktop ? 0 : 5} height={isDesktop ? '120px' : '80px'} src={'/images/league2.png'} alt={"League of Legends Logo"}></Image>
         <Spacer></Spacer>
-        <Text mt={5} fontSize={48} fontFamily={'FrizQuadrata'}>
+        <Text mt={5} fontSize={isDesktop ? 48 : 32} fontFamily={'FrizQuadrata'}>
           Ultimate Team
         </Text>
         <Spacer></Spacer>
@@ -39,13 +51,56 @@ export default function Home({ allChampData, version }) {
       </header>
 
       <main>
-          <SimpleGrid columns={5} spacing={10} margin={5}>
+          <Flex direction={isDesktop ? 'row' : 'column'} padding={1}>
+            <Container width={'250px'}>
+            <Select
+              instanceId={'champion-select'}
+              placeholder="Search..."
+              width={'250px'}
+              onChange={(event) => {
+                setSearch(event.value)
+              }}
+              options={allChampData.map(champ => {
+                return {
+                  label: champ.name.toUpperCase(),
+                  value: champ.name
+                }
+              })}
+            />
+            </Container>
+            <Button
+              variant='ghost'
+              ml={2}
+              mr={2}
+              key={'all-button'}
+              onClick={() => {
+                setFilter(null)
+                setSearch(null)
+              } }
+            >
+              All
+            </Button>
+          {roleNames.map(role => {
+            return (
+              <Button
+                variant='ghost'
+                ml={2}
+                mr={2}
+                key={role + '-button'}
+                onClick={() => { setFilter(role)}}
+              >
+                {role.toUpperCase()}
+              </Button>
+            )
+          })}
+          </Flex>
+          <SimpleGrid columns={isDesktop ? 5 : 2} spacing={10} margin={5}>
             {
-              allChampData.map(champ => <ChampionCard key={champ.name} champion={champ} ></ChampionCard>)
+              (search 
+                ? allChampData.filter(champ => champ.name === search)
+                : filter ? allChampData.filter(champ => champ.main === filter) : allChampData).map(champ => <ChampionCard key={champ.name} champion={champ} ></ChampionCard>)
             }
           </SimpleGrid>
-
-        
       </main>
 
       <footer>
@@ -214,6 +269,9 @@ export default function Home({ allChampData, version }) {
 
         * {
           box-sizing: border-box;
+        }
+        a {
+          color: #006680;
         }
 
         @font-face {

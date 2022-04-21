@@ -25,7 +25,11 @@ import {
     SupportIcon
 } from '../roleIcon'
 
+import useMediaQuery from "../../hooks/useMediaQuery";
+
 export function ChampionModal({isOpen, onClose, champion}) {
+
+    const isDesktop = useMediaQuery('(min-width: 960px)');
     
     return (
       <>
@@ -57,12 +61,12 @@ export function ChampionModal({isOpen, onClose, champion}) {
                         width={'50%'}
                     >
                         <Text fontSize={'large'}>{champion.title.toUpperCase()}</Text>
-                        <Text fontSize={'6xl'}>{champion.name.toUpperCase()}</Text>
-                        <Text>{champion.blurb}</Text>
+                        <Text fontSize={isDesktop ? '6xl' : '3xl'}>{champion.name.toUpperCase()}</Text>
+                        <Text>{champion.blurb}</Text> <a target='_blank' href={champion.officialUrl}>SEE MORE</a>
                     </VStack>
                     <Spacer></Spacer>
                     <Box width={'50%'} p={'5'} pt={14} pl={12}>
-                        <SimpleGrid columns={3} spacing={10}>
+                        <SimpleGrid columns={isDesktop ? 3 : 1} spacing={10}>
                             <Flex direction={'row'}>
                                 <Text
                                     color='gray.500'

@@ -9,34 +9,36 @@ import {
   SupportIcon
 } from '../roleIcon'
 import { ChampionModal } from '../championModal'
+import useMediaQuery from "../../hooks/useMediaQuery";
 
-const renderIcon = (main) => {
+const renderIcon = (main, size) => {
   switch (main) {
     case "assassin": {
-      return <AssassinIcon boxSize={7} color='red.400'></AssassinIcon>
+      return <AssassinIcon boxSize={size} color='red.400'></AssassinIcon>
     }
     case "fighter": {
-      return <FighterIcon boxSize={7} color='orange.400'></FighterIcon>
+      return <FighterIcon boxSize={size} color='orange.400'></FighterIcon>
     }
     case "tank": {
-      return <TankIcon boxSize={7} color='yellow.400'></TankIcon>
+      return <TankIcon boxSize={size} color='yellow.400'></TankIcon>
     }
     case "mage": {
-      return <MageIcon boxSize={7} color='blue.400'></MageIcon>
+      return <MageIcon boxSize={size} color='blue.400'></MageIcon>
     }
     case "marksman": {
-      return <MarksmanIcon boxSize={7} color='purple.400'></MarksmanIcon>
+      return <MarksmanIcon boxSize={size} color='purple.400'></MarksmanIcon>
     }
     case "support": {
-      return <SupportIcon boxSize={7} color='green.400'></SupportIcon>
+      return <SupportIcon boxSize={size} color='green.400'></SupportIcon>
     }
     default: {
-      return  <SupportIcon boxSize={7}></SupportIcon>
+      return  <SupportIcon boxSize={size}></SupportIcon>
     }
   }
 }
 
 export default function ChampionCard({ champion }) {
+  const isDesktop = useMediaQuery('(min-width: 960px)');
   const { isOpen, onOpen, onClose } = useDisclosure()
     return (
       <>
@@ -53,9 +55,9 @@ export default function ChampionCard({ champion }) {
         <Box p='4'  _groupHover={{ transitionDuration: '200ms', transitionTimingFunction: 'easing-in-out', bg: "#006680", pl: 7 }} >
           <Flex >
           <Box
-            mt='1'
+            mt={isDesktop ? '1' : '3'}
             fontWeight='semibold'
-            fontSize={24}
+            fontSize={isDesktop ? 24 : 14}
             fontFamily={'FrizQuadrata'}
             fontStyle={'italic'}
             as='h4'
@@ -70,7 +72,7 @@ export default function ChampionCard({ champion }) {
             color='gray.500'
             fontWeight='semibold'
             letterSpacing='wide'
-            fontSize='xl'
+            fontSize={isDesktop ? 'xl' : 's'}
             textTransform='uppercase'
             mr='2'
           >
@@ -79,7 +81,7 @@ export default function ChampionCard({ champion }) {
           <Box
             mt='2'
           >
-            {renderIcon(champion.main)}
+            {renderIcon(champion.main, isDesktop ? 7 : 5)}
           </Box>
           </Flex>
         </Box>
