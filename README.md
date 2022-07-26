@@ -3,7 +3,7 @@
 
 An attempt at using a FIFA-like coefficient rating system for League of Legends champions to determine the strongest champions in a particular release.
 
-![LoL Ultimate Team](https://imgur.com/N6fB1fu)
+![LoL Ultimate Team](https://user-images.githubusercontent.com/20380970/181111654-1a37cfed-eb06-4464-9769-71cc65f7d647.png)
 
 ### Demo - https://lol-ultimate-team.com/
 #
