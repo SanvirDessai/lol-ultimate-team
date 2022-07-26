@@ -25,6 +25,8 @@ import {
     SupportIcon
 } from '../roleIcon'
 
+import IconRating from '../iconRating'
+
 import useMediaQuery from "../../hooks/useMediaQuery";
 
 export function ChampionModal({isOpen, onClose, champion}) {
@@ -67,78 +69,24 @@ export function ChampionModal({isOpen, onClose, champion}) {
                     <Spacer></Spacer>
                     <Box width={'50%'} p={'5'} pt={14} pl={12}>
                         <SimpleGrid columns={isDesktop ? 3 : 1} spacing={10}>
-                            <Flex direction={'row'}>
-                                <Text
-                                    color='gray.500'
-                                    fontWeight='semibold'
-                                    letterSpacing='wide'
-                                    fontSize='2xl'
-                                    mr='2'
-                                >
-                                    {champion.ratings.assassin}
-                                </Text>
+                            <IconRating rating={champion.ratings.assassin}>
                                 <AssassinIcon boxSize={10} color='red.400'></AssassinIcon>
-                            </Flex>
-                            <Flex direction={'row'}>
-                            <Text
-                                    color='gray.500'
-                                    fontWeight='semibold'
-                                    letterSpacing='wide'
-                                    fontSize='2xl'
-                                    mr='2'
-                                >
-                                    {champion.ratings.mage}
-                                </Text>
+                            </IconRating>
+                            <IconRating rating={champion.ratings.mage}>
                                 <MageIcon boxSize={10} color='blue.400'></MageIcon>
-                            </Flex>
-                            <Flex direction={'row'}>
-                            <Text
-                                    color='gray.500'
-                                    fontWeight='semibold'
-                                    letterSpacing='wide'
-                                    fontSize='2xl'
-                                    mr='2'
-                                >
-                                    {champion.ratings.tank}
-                                </Text>
+                            </IconRating>
+                            <IconRating rating={champion.ratings.tank}>
                                 <TankIcon boxSize={10} color='yellow.400'></TankIcon>
-                            </Flex>
-                            <Flex direction={'row'}>
-                            <Text
-                                    color='gray.500'
-                                    fontWeight='semibold'
-                                    letterSpacing='wide'
-                                    fontSize='2xl'
-                                    mr='2'
-                                >
-                                    {champion.ratings.fighter}
-                                </Text>
+                            </IconRating>
+                            <IconRating rating={champion.ratings.fighter}>
                                 <FighterIcon boxSize={10} color='orange.400'></FighterIcon>
-                            </Flex>
-                            <Flex direction={'row'}>
-                            <Text
-                                    color='gray.500'
-                                    fontWeight='semibold'
-                                    letterSpacing='wide'
-                                    fontSize='2xl'
-                                    mr='2'
-                                >
-                                    {champion.ratings.marksman}
-                                </Text>
+                            </IconRating>
+                            <IconRating rating={champion.ratings.marksman}>
                                 <MarksmanIcon boxSize={10} color='purple.400'></MarksmanIcon>
-                            </Flex>
-                            <Flex direction={'row'}>
-                            <Text
-                                    color='gray.500'
-                                    fontWeight='semibold'
-                                    letterSpacing='wide'
-                                    fontSize='2xl'
-                                    mr='2'
-                                >
-                                    {champion.ratings.support}
-                                </Text>
+                            </IconRating>
+                            <IconRating rating={champion.ratings.support}>
                                 <SupportIcon boxSize={10} color='green.400'></SupportIcon>
-                            </Flex>
+                            </IconRating>
                         </SimpleGrid>
                     </Box>
                     </Flex>
